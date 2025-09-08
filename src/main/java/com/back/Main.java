@@ -18,7 +18,7 @@ public class Main {
                 System.out.print("작가 : ");
                 author = sc.nextLine();
                 count++;
-                System.out.println("%d번 명언이 등록되었습니다.".formatted(count));
+                System.out.println("%d번 명언이 등록되었습니다.".formatted(count)); //4단계인데,,이미 해버림
             }
             if(str.equals("종료")){
                 break;
