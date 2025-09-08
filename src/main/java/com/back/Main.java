@@ -6,6 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String saying,author;
+        WiseSaying[] wiseSaying = new WiseSaying[100];
         int count=0;
         System.out.println("== 명언 앱 ==");
         while(true){
@@ -18,9 +19,17 @@ public class Main {
                 System.out.print("작가 : ");
                 author = sc.nextLine();
                 count++;
+                wiseSaying[count] = new WiseSaying(count,saying,author);
                 System.out.println("%d번 명언이 등록되었습니다.".formatted(count)); //4단계인데,,이미 해버림
             }
-            if(str.equals("종료")){
+            else if(str.equals("목록")){
+                System.out.println("번호 / 작가 / 명언");
+                System.out.println("----------------------");
+                for(int i=count;i>0;i--){
+                    System.out.println("%d / %s / %s".formatted(wiseSaying[i].id,wiseSaying[i].saying,wiseSaying[i].author));
+                }
+            }
+            else if (str.equals("종료")){
                 break;
             }
         }
