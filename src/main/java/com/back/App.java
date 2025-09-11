@@ -27,10 +27,46 @@ public class App {
             else if (str.contains("삭제")){
                 int id = Integer.parseInt(str.split("=")[1]);
                 actionDelete(id);
+            }else if (str.contains("수정")){
+                int id = Integer.parseInt(str.split("=")[1]);
+                actionModify(id);
             }else if (str.equals("종료")){
                 break;
             }
         }
+    }
+
+    public int findByIndex(int id){
+        int index = -1;
+
+        for(int i=0;i<lastIndex;i++){
+            if(wiseSayings[i].id == id){
+                index = i;
+            }
+        }
+
+        return index;
+
+    }
+
+    public void actionModify(int id) {
+
+        int index = findByIndex(id);
+
+        System.out.println("명언(기존) : %s".formatted(wiseSayings[index].saying));
+        System.out.print("명언 : ");
+        String modifiedSaying = sc.nextLine();
+        System.out.println("작가(기존) : %s".formatted(wiseSayings[index].author));
+        System.out.print("작가 : ");
+        String modifiedAuthor = sc.nextLine();
+
+        modify(index,modifiedSaying,modifiedAuthor);
+    }
+
+    private void modify(int index,String modifiedSaying, String modifiedAuthor) {
+
+        wiseSayings[index].saying = modifiedSaying;
+        wiseSayings[index].author = modifiedAuthor;
     }
 
     public void actionDelete(int id) {
@@ -44,13 +80,7 @@ public class App {
     }
 
     public int delete(int id) {
-        int deleteIndex = -1;
-
-        for(int i=0;i<lastIndex;i++){
-            if(wiseSayings[i].id == id){
-                deleteIndex = i;
-            }
-        }
+        int deleteIndex = findByIndex(id);
 
         if(deleteIndex==-1){
             return -1;
