@@ -5,8 +5,9 @@ import java.util.Scanner;
 public class App {
 
     Scanner sc = new Scanner(System.in);
-    WiseSaying[] wiseSaying = new WiseSaying[100];
-    int count=0;
+    WiseSaying[] wiseSayings = new WiseSaying[100];
+    int lastIndex=0;
+    int lastNo=0;
 
     public  void run(){
 
@@ -32,9 +33,25 @@ public class App {
     private void actionList() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
-        for(int i=count;i>0;i--){
-            System.out.println("%d / %s / %s".formatted(wiseSaying[i].id,wiseSaying[i].saying,wiseSaying[i].author));
+
+        WiseSaying[] wiseSayings1 = findListDesc();
+
+        for(WiseSaying wiseSaying : wiseSayings){
+            System.out.println("%d / %s / %s".formatted(wiseSaying.id,wiseSaying.saying,wiseSaying.author));
         }
+
+    }
+
+    public WiseSaying[] findListDesc(){
+
+        WiseSaying[] result = new WiseSaying[lastIndex];
+        int resultIndex = 0;
+
+        for(int i = lastIndex-1;i>=0;i--){
+            result[resultIndex] = wiseSayings[i];
+            resultIndex++;
+        }
+        return result;
     }
 
     public void actionWrite() {
@@ -43,8 +60,16 @@ public class App {
         String saying = sc.nextLine();
         System.out.print("작가 : ");
         String author = sc.nextLine();
-        count++;
-        wiseSaying[count] = new WiseSaying(count,saying,author);
-        System.out.println("%d번 명언이 등록되었습니다.".formatted(count)); //4단계인데,,이미 해버림
+
+        WiseSaying wiseSaying = write(saying,author);
+
+        System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.id));
+    }
+
+    public WiseSaying write(String saying,String author){
+        lastNo++;
+        WiseSaying wiseSaying =  new WiseSaying(lastNo,saying,author);
+        wiseSayings[lastIndex++]=wiseSaying;
+        return wiseSaying;
     }
 }
