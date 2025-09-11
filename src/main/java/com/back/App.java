@@ -24,17 +24,41 @@ public class App {
             else if(str.equals("목록")){
                 actionList();
             }
-            else if (str.equals("종료")){
+            else if (str.contains("삭제")){
+                int id = Integer.parseInt(str.split("=")[1]);
+                actionDelete(id);
+            }else if (str.equals("종료")){
                 break;
             }
         }
     }
 
-    private void actionList() {
+    public void actionDelete(int id) {
+        delete(id);
+        System.out.println("1번 명언이 삭제되었습니다.");
+    }
+
+    public void delete(int id) {
+        int deleteIndex = -1;
+
+        for(int i=0;i<lastIndex;i++){
+            if(wiseSayings[i].id == id){
+                deleteIndex = i;
+            }
+        }
+
+        for(int i=deleteIndex;i<lastIndex;i++){
+            wiseSayings[i] = wiseSayings[i+1];
+        }
+
+        lastIndex--;
+    }
+
+    public void actionList() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
-        WiseSaying[] wiseSayings1 = findListDesc();
+        WiseSaying[] wiseSayings = findListDesc();
 
         for(WiseSaying wiseSaying : wiseSayings){
             System.out.println("%d / %s / %s".formatted(wiseSaying.id,wiseSaying.saying,wiseSaying.author));
