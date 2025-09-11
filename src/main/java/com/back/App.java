@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class App {
 
-    Scanner sc = new Scanner(System.in);
-    WiseSaying[] wiseSayings = new WiseSaying[100];
-    int lastIndex=0;
-    int lastNo=0;
+    private Scanner sc = new Scanner(System.in);
+    private WiseSaying[] wiseSayings = new WiseSaying[100];
+    private int lastIndex=0;
+    private int lastNo=0;
 
     public  void run(){
 
@@ -36,7 +36,7 @@ public class App {
         }
     }
 
-    public int findByIndex(int id){
+    private int findByIndex(int id){
         int index = -1;
 
         for(int i=0;i<lastIndex;i++){
@@ -49,7 +49,7 @@ public class App {
 
     }
 
-    public void actionModify(int id) {
+    private void actionModify(int id) {
 
         int index = findByIndex(id);
 
@@ -69,7 +69,7 @@ public class App {
         wiseSayings[index].setAuthor(modifiedAuthor);
     }
 
-    public void actionDelete(int id) {
+    private void actionDelete(int id) {
         int no = delete(id);
         if(no!=-1){
             System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
@@ -79,7 +79,7 @@ public class App {
 
     }
 
-    public int delete(int id) {
+    private int delete(int id) {
         int deleteIndex = findByIndex(id);
 
         if(deleteIndex==-1){
@@ -95,7 +95,7 @@ public class App {
         return deleteIndex;
     }
 
-    public void actionList() {
+    private void actionList() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
@@ -107,7 +107,7 @@ public class App {
 
     }
 
-    public WiseSaying[] findListDesc(){
+    private WiseSaying[] findListDesc(){
 
         WiseSaying[] result = new WiseSaying[lastIndex];
         int resultIndex = 0;
@@ -119,7 +119,7 @@ public class App {
         return result;
     }
 
-    public void actionWrite() {
+    private void actionWrite() {
 
         System.out.print("명언 : ");
         String saying = sc.nextLine();
@@ -131,7 +131,7 @@ public class App {
         System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.getId()));
     }
 
-    public WiseSaying write(String saying,String author){
+    private WiseSaying write(String saying,String author){
         lastNo++;
         WiseSaying wiseSaying =  new WiseSaying(lastNo,saying,author);
         wiseSayings[lastIndex++]=wiseSaying;
