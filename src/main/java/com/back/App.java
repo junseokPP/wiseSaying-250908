@@ -40,7 +40,7 @@ public class App {
         int index = -1;
 
         for(int i=0;i<lastIndex;i++){
-            if(wiseSayings[i].id == id){
+            if(wiseSayings[i].getId() == id){
                 index = i;
             }
         }
@@ -53,10 +53,10 @@ public class App {
 
         int index = findByIndex(id);
 
-        System.out.println("명언(기존) : %s".formatted(wiseSayings[index].saying));
+        System.out.println("명언(기존) : %s".formatted(wiseSayings[index].getSaying()));
         System.out.print("명언 : ");
         String modifiedSaying = sc.nextLine();
-        System.out.println("작가(기존) : %s".formatted(wiseSayings[index].author));
+        System.out.println("작가(기존) : %s".formatted(wiseSayings[index].getAuthor()));
         System.out.print("작가 : ");
         String modifiedAuthor = sc.nextLine();
 
@@ -65,8 +65,8 @@ public class App {
 
     private void modify(int index,String modifiedSaying, String modifiedAuthor) {
 
-        wiseSayings[index].saying = modifiedSaying;
-        wiseSayings[index].author = modifiedAuthor;
+        wiseSayings[index].setSaying(modifiedSaying);
+        wiseSayings[index].setAuthor(modifiedAuthor);
     }
 
     public void actionDelete(int id) {
@@ -102,7 +102,7 @@ public class App {
         WiseSaying[] wiseSayings = findListDesc();
 
         for(WiseSaying wiseSaying : wiseSayings){
-            System.out.println("%d / %s / %s".formatted(wiseSaying.id,wiseSaying.saying,wiseSaying.author));
+            System.out.println("%d / %s / %s".formatted(wiseSaying.getId(),wiseSaying.getSaying(),wiseSaying.getAuthor()));
         }
 
     }
@@ -128,7 +128,7 @@ public class App {
 
         WiseSaying wiseSaying = write(saying,author);
 
-        System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.id));
+        System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.getId()));
     }
 
     public WiseSaying write(String saying,String author){
