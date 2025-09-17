@@ -1,6 +1,7 @@
 package com.back;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
@@ -10,6 +11,7 @@ public class App {
     private Scanner sc = new Scanner(System.in);
     private int lastId = 0;
     private List<WiseSaying> wiseSayings = new ArrayList<>();//List를 사용한 이유는 상속관계에서 후손들을 사용 할 수 있기때문.
+    HashMap<String,String> paramMap = new HashMap<>();
 
     public void run() {
 
@@ -26,10 +28,12 @@ public class App {
                 actionList();
 
             } else if (command.startsWith("삭제")) {
-                actionDelete(command);
+                setParams(command);
+                actionDelete();
 
             } else if (command.startsWith("수정")) {
-                actionModify(command);
+                setParams(command);
+                actionModify();
 
             } else if (command.equals("종료")) {
                 break;
@@ -37,16 +41,38 @@ public class App {
         }
     }
 
-    private void actionModify(String command) {
+    private void setParams(String command) {
+        String[] commandBits = command.split("\\?");
 
-        String[] commandBits = command.split("=");
+        String actionName = commandBits[0];
+        String queryString = "";
 
-        if (commandBits.length < 2) {
-            System.out.println("번호를 입력해주세요.");
-            return;
+        if(commandBits.length > 1){
+            queryString = commandBits[1];
         }
 
-        String idStr = commandBits[1];
+        String[] queryStringBits = queryString.split("&");
+        for(String param : queryStringBits){
+            String[] paramBits = param.split("=");
+            String key = paramBits[0];
+            String value = null;
+
+            if(paramBits.length < 1){
+                continue;
+            }
+
+            value = paramBits[1];
+            paramMap.put(key, value);
+        }
+    }
+
+    private String getParam(String key){
+        return  paramMap.get(key);
+    }
+
+    private void actionModify() {
+
+        String idStr = getParam("id");
         int id = Integer.parseInt(idStr);
 
         WiseSaying wiseSaying  = findByIdOrNull(id);
@@ -72,16 +98,9 @@ public class App {
         modifyTargetWiseSaying.setAuthor(newAuthor);
     }
 
-    private void actionDelete(String command) {
+    private void actionDelete() {
 
-        String[] commandBits = command.split("=");
-
-        if (commandBits.length < 2) {
-            System.out.println("번호를 입력해주세요.");
-            return;
-        }
-
-        String idStr = commandBits[1];
+        String idStr = getParam("id");
         int id = Integer.parseInt(idStr);
 
         boolean result = delete(id);
