@@ -2,14 +2,15 @@ package com.back.domain.wiseSaying;
 
 import com.back.domain.wiseSaying.controller.SystemController;
 import com.back.domain.wiseSaying.controller.WiseSayingController;
+import com.back.global.AppContext;
+import com.back.global.Rq;
 
 import java.util.Scanner;
 
 public class App {
-
-    private Scanner sc = new Scanner(System.in);
-    private final SystemController systemController = new SystemController();
-    private final WiseSayingController wiseSayingController = new WiseSayingController(sc);
+    private final Scanner sc = AppContext.sc;
+    private final SystemController systemController = AppContext.systemController;
+    private final WiseSayingController wiseSayingController = AppContext.wiseSayingController;
 
     public void run() {
 
