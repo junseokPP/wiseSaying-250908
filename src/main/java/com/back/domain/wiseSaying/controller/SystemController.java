@@ -1,4 +1,4 @@
-package com.back.domain.controller;
+package com.back.domain.wiseSaying.controller;
 
 public class SystemController {
 

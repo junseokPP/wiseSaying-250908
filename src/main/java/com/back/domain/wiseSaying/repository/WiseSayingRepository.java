@@ -1,4 +1,4 @@
-package com.back.domain.repository;
+package com.back.domain.wiseSaying.repository;
 
 import com.back.domain.wiseSaying.WiseSaying;
 
@@ -17,27 +17,29 @@ public class WiseSayingRepository {
                 .orElse(null);
     }
 
-
     public boolean delete(int id) {
         return wiseSayings.removeIf(w -> w.getId() == id);
     }
 
-
     public WiseSaying save(WiseSaying wiseSaying) {
 
-        if(wiseSaying.isNew()){
+        if(wiseSaying.isNew()) { // wiseSaying이 새로운 객체인 경우
             lastId++;
             wiseSaying.setId(lastId);
+
+
             wiseSaying.setCreatedDate(java.time.LocalDateTime.now());
             wiseSaying.setModifiedDate(java.time.LocalDateTime.now());
             wiseSayings.add(wiseSaying);
-        }{
+        }
+        else {
             wiseSaying.setModifiedDate(java.time.LocalDateTime.now());
         }
+
         return wiseSaying;
     }
 
-    public List<WiseSaying> reversed() {
+    public List<WiseSaying> findListDesc() {
         return wiseSayings.reversed();
     }
 }

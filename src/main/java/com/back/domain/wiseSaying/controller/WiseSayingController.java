@@ -1,27 +1,28 @@
-package com.back.domain.controller;
+package com.back.domain.wiseSaying.controller;
 
-import com.back.domain.service.WiseSayingService;
 import com.back.domain.wiseSaying.Rq;
+import com.back.domain.wiseSaying.Ut;
 import com.back.domain.wiseSaying.WiseSaying;
+import com.back.domain.wiseSaying.service.WiseSayingService;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class WiseSayingController {
+
     private Scanner sc;
+    WiseSayingService wiseSayingService = new WiseSayingService();
+
     public WiseSayingController(Scanner sc) {
         this.sc = sc;
     }
 
-    private final WiseSayingService wiseSayingService = new WiseSayingService();
-
     public void actionModify(Rq rq) {
 
-
-        int id = rq.getParamAsInt("id",-1);
+        int id = rq.getParamAsInt("id", -1);
         WiseSaying wiseSaying = wiseSayingService.getByIdOrNull(id);
 
-        if(wiseSaying == null) {
+        if (wiseSaying == null) {
             System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
             return;
         }
@@ -37,12 +38,9 @@ public class WiseSayingController {
     }
 
 
-
     public void actionDelete(Rq rq) {
 
-
-        int id =  rq.getParamAsInt("id",-1);
-
+        int id = rq.getParamAsInt("id", -1);
         boolean result = wiseSayingService.delete(id);
 
         if (result) {
@@ -52,18 +50,17 @@ public class WiseSayingController {
         }
     }
 
-
-
-
     public void actionList() {
-        System.out.println("번호 / 작가 / 명언");
+        System.out.println("번호 / 작가 / 명언 / 작성날짜 / 수정날짜");
         System.out.println("----------------------");
 
         List<WiseSaying> wiseSayings = wiseSayingService.findListDesc();
 
         for (WiseSaying wiseSaying : wiseSayings) {
             System.out.println("%d / %s / %s / %s / %s".formatted(wiseSaying.getId(),
-                    wiseSaying.getSaying(), wiseSaying.getAuthor(),wiseSaying.getCreatedDate(),wiseSaying.getModifiedDate()));
+                    wiseSaying.getSaying(), wiseSaying.getAuthor(),
+                    Ut.getFormattedDate(wiseSaying.getCreatedDate()),
+                    Ut.getFormattedDate(wiseSaying.getModifiedDate())));
         }
     }
 

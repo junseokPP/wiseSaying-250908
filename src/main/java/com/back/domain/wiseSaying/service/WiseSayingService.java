@@ -1,6 +1,6 @@
-package com.back.domain.service;
+package com.back.domain.wiseSaying.service;
 
-import com.back.domain.repository.WiseSayingRepository;
+import com.back.domain.wiseSaying.repository.WiseSayingRepository;
 import com.back.domain.wiseSaying.WiseSaying;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class WiseSayingService {
     }
 
     public List<WiseSaying> findListDesc() {
-        return wiseSayingRepository.reversed();
+        return wiseSayingRepository.findListDesc();
     }
 
 }
