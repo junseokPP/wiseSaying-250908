@@ -43,12 +43,12 @@ public class Rq {
         return actionName;
     }
 
-    public String getParam(String key) {
-        return paramMap.get(key);
+    public String getParamOrDefault(String key, String defaultValue) {
+        return paramMap.getOrDefault(key, defaultValue);
     }
 
     public int getParamAsInt(String key,int defaultValue) {
-        String value = paramMap.get(key);
+        String value = getParamOrDefault(key,null);
         if (value == null) {
             return defaultValue;
         }
