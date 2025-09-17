@@ -1,4 +1,6 @@
-package com.back;
+package com.back.domain.wiseSaying;
+
+import com.back.domain.controller.SystemController;
 
 import java.util.*;
 
@@ -7,6 +9,7 @@ public class App {
     private Scanner sc = new Scanner(System.in);
     private int lastId = 0;
     private List<WiseSaying> wiseSayings = new ArrayList<>();
+    private final SystemController systemController = new SystemController();
 
     public void run() {
 
@@ -31,6 +34,7 @@ public class App {
                 actionModify(rq);
 
             } else if (actionName.equals("종료")) {
+                systemController.exit();
                 break;
             }
         }
