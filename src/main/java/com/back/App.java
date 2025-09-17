@@ -21,58 +21,29 @@ public class App {
             System.out.print("명령) ");
             String command = sc.nextLine();
 
-            if (command.equals("등록")) {
+            Rq rq = new Rq(command);
+            String actionName = rq.getActionName();
+            if (actionName.equals("등록")) {
                 actionWrite();
 
-            } else if (command.equals("목록")) {
+            } else if (actionName.equals("목록")) {
                 actionList();
 
-            } else if (command.startsWith("삭제")) {
-                setParams(command);
-                actionDelete();
+            } else if (actionName.startsWith("삭제")) {
+                actionDelete(rq);
 
-            } else if (command.startsWith("수정")) {
-                setParams(command);
-                actionModify();
+            } else if (actionName.startsWith("수정")) {
+                actionModify(rq);
 
-            } else if (command.equals("종료")) {
+            } else if (actionName.equals("종료")) {
                 break;
             }
         }
     }
 
-    private void setParams(String command) {
-        String[] commandBits = command.split("\\?");
+    private void actionModify(Rq rq) {
 
-        String actionName = commandBits[0];
-        String queryString = "";
-
-        if(commandBits.length > 1){
-            queryString = commandBits[1];
-        }
-
-        String[] queryStringBits = queryString.split("&");
-        for(String param : queryStringBits){
-            String[] paramBits = param.split("=");
-            String key = paramBits[0];
-            String value = null;
-
-            if(paramBits.length < 1){
-                continue;
-            }
-
-            value = paramBits[1];
-            paramMap.put(key, value);
-        }
-    }
-
-    private String getParam(String key){
-        return  paramMap.get(key);
-    }
-
-    private void actionModify() {
-
-        String idStr = getParam("id");
+        String idStr = rq.getParam("id");
         int id = Integer.parseInt(idStr);
 
         WiseSaying wiseSaying  = findByIdOrNull(id);
@@ -98,9 +69,9 @@ public class App {
         modifyTargetWiseSaying.setAuthor(newAuthor);
     }
 
-    private void actionDelete() {
+    private void actionDelete(Rq rq) {
 
-        String idStr = getParam("id");
+        String idStr = rq.getParam("id");
         int id = Integer.parseInt(idStr);
 
         boolean result = delete(id);
