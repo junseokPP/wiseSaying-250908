@@ -1,17 +1,12 @@
 package com.back;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.IntStream;
+import java.util.*;
 
 public class App {
 
     private Scanner sc = new Scanner(System.in);
     private int lastId = 0;
-    private List<WiseSaying> wiseSayings = new ArrayList<>();//List를 사용한 이유는 상속관계에서 후손들을 사용 할 수 있기때문.
-    HashMap<String,String> paramMap = new HashMap<>();
+    private List<WiseSaying> wiseSayings = new ArrayList<>();
 
     public void run() {
 
@@ -41,18 +36,17 @@ public class App {
         }
     }
 
+
     private void actionModify(Rq rq) {
 
-        String idStr = rq.getParam("id");
-        int id = Integer.parseInt(idStr);
 
-        WiseSaying wiseSaying  = findByIdOrNull(id);
+        int id = rq.getParamAsInt("id",-1);
+        WiseSaying wiseSaying = findByIdOrNull(id);
 
         if(wiseSaying == null) {
             System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
             return;
         }
-
 
         System.out.println("명언(기존) : %s".formatted(wiseSaying.getSaying()));
         System.out.print("명언 : ");
@@ -64,15 +58,15 @@ public class App {
         modify(wiseSaying, newSaying, newAuthor);
     }
 
-    private void modify(WiseSaying modifyTargetWiseSaying, String newSaying, String newAuthor) {
-        modifyTargetWiseSaying.setSaying(newSaying);
-        modifyTargetWiseSaying.setAuthor(newAuthor);
+    private void modify(WiseSaying wiseSaying, String newSaying, String newAuthor) {
+        wiseSaying.setSaying(newSaying);
+        wiseSaying.setAuthor(newAuthor);
     }
 
     private void actionDelete(Rq rq) {
 
-        String idStr = rq.getParam("id");
-        int id = Integer.parseInt(idStr);
+
+        int id =  rq.getParamAsInt("id",-1);
 
         boolean result = delete(id);
 
@@ -85,21 +79,13 @@ public class App {
 
     private WiseSaying findByIdOrNull(int id) {
         return wiseSayings.stream()
-                .filter(s -> s.getId() == id)
+                .filter(w -> w.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
-    private int findIndexById(int id) {
-        return IntStream.range(0,wiseSayings.size())
-                .filter(i -> wiseSayings.get(i).getId() == id)
-                .findFirst()
-                .orElse(-1);
-
-    }
-
     private boolean delete(int id) {
-        return wiseSayings.removeIf(wiseSaying -> wiseSaying.getId() == id);
+        return wiseSayings.removeIf(w -> w.getId() == id);
     }
 
     private void actionList() {
